@@ -1,6 +1,7 @@
 import json
 import requests
-
+from bidi.algorithm import get_display
+path_to_text = 'Daat Siddur Ashkenaz.json'
 path_to_text = 'metsudah_siddur.json'
 
 class Text:
@@ -134,24 +135,31 @@ class Text:
         serviceData = ['TOP']+this.getServiceDataToOrderedList() #Get the service data as an ordered list
 
         paths = this.orderedListToOrderedPaths(serviceData) #Convert the ordered list to a list of paths
-        
+        # print(paths)
         for path in paths: #Get the text at each path
             print(str(path) + "\n\n")
             text = this.getTextAtPath(this.cur_path  + path)
-            text = " ".join(text)
-            text = text.split(" ")
+            # text = " ".join(text)
+            # text = text.split(" ")
 
             
             
             for i in range(len(text)):
-                text[i] = text[i][::-1]
+                text[i] = text[i].split(" ")
+                for q in range(len(text[i])):
+                    
+                    text[i][q] = text[i][q][::-1]
+                    
+                    # text[i][q] = u'\u202B' + text[i][q] + u'\u202C'
+                    #print(text[i][q])
+                text[i] = " ".join(text[i])
             
-            text = " ".join(text)
 
             # text = text.split(":")
             # text = text[::-1]
             # text = ":".join(text)
-            print(text)
+        return "\n".join(text)
+            
 
 
 
@@ -172,10 +180,11 @@ class Text:
 
 myText = Text(path_to_text)
 myText.addCurrent('Weekday')
-myText.addCurrent('Shacharit')
+myText.addCurrent('Minchah')
 
-
-myText.getFullService()
+with open('output.txt', 'w', encoding='utf-8') as file:
+    file.write(myText.getFullService())
+print(get_display(myText.getFullService()))
 # testData = {"games:" : [{'a':"Test1", 'b':"Test2"}, {'c':"Test3", 'd':"Test4"}], "test":"test","cars:": [{'e':"Test5", 'f':"Test6"}, {'g':"Test7", 'h':"Test8"}]}
 # print(myText.getServiceDataToText())
 # print("\n\n\n")
