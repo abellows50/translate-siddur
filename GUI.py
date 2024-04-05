@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkhtmlview import HTMLText
+from tkhtmlview import HTMLText, HTMLLabel
 class GUI:
     def __init__(self):
         self.window = tk.Tk()
