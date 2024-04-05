@@ -1,7 +1,9 @@
 import json
-import requests
-from bidi.algorithm import get_display
-path_to_text = 'Daat Siddur Ashkenaz.json'
+# import requests
+
+# requests.get('https://www.sefaria.org/api/texts/Genesis.1.1')
+#from bidi.algorithm import get_display
+# path_to_text = 'Daat Siddur Ashkenaz.json'
 path_to_text = 'metsudah_siddur.json'
 
 class Text:
@@ -155,7 +157,7 @@ class Text:
                     #print(text[i][q])
                 text[i] = " ".join(text[i])
             
-            fullText+="\n".join(text)
+            fullText+="</br></br>"+":".join(path)+"<br/>"+" ".join(text)
             # text = text.split(":")
             # text = text[::-1]
             # text = ":".join(text)
@@ -180,21 +182,16 @@ class Text:
         print(this.schema)
 
 myText = Text(path_to_text)
-myText.addCurrent('Weekday')
-myText.addCurrent('Minchah')
+# myText.addCurrent('Weekday')
+# myText.addCurrent('Shacharit')
 
 def add_bidi_controls(text):
     return u'\u202B' + text + u'\u202C'
 
-full_service = myText.getFullService()
-#full_service = add_bidi_controls(full_service)
-
-#text = get_display(full_service)
-text=full_service
-with open('output.txt', 'w', encoding='utf-8') as file:
-
+text = myText.getFullService()
+with open('output.html', 'w', encoding='utf-8') as file:
     file.write(text)
-print(text)
+# print(text)
 # testData = {"games:" : [{'a':"Test1", 'b':"Test2"}, {'c':"Test3", 'd':"Test4"}], "test":"test","cars:": [{'e':"Test5", 'f':"Test6"}, {'g':"Test7", 'h':"Test8"}]}
 # print(myText.getServiceDataToText())
 # print("\n\n\n")
