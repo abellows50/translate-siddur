@@ -189,9 +189,11 @@ def add_bidi_controls(text):
 full_service = myText.getFullService()
 full_service = add_bidi_controls(full_service)
 
+text = get_display(full_service)
 with open('output.txt', 'w', encoding='utf-8') as file:
-    file.write(get_display(full_service))
-print(get_display(full_service))
+
+    file.write(text)
+print(text)
 # testData = {"games:" : [{'a':"Test1", 'b':"Test2"}, {'c':"Test3", 'd':"Test4"}], "test":"test","cars:": [{'e':"Test5", 'f':"Test6"}, {'g':"Test7", 'h':"Test8"}]}
 # print(myText.getServiceDataToText())
 # print("\n\n\n")
