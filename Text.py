@@ -26,6 +26,8 @@ class Text:
     def parse(this):
         return json.loads(this.text)
     
+    #Get the service basic path from the schema based on the current path
+    #Returns a list of dictionaries
     def getServiceData(this):
         pointer = this.schema
         for pathPart in this.cur_path:
@@ -39,14 +41,21 @@ class Text:
                 return "Path not found"     
         return pointer
     
+    #Get the service basic path from the schema based on the current path and convert it to nice text
+    #returns a string
     def getServiceDataToText(this):
         pointer = this.getServiceData()
         return this.dictionaryListToText(pointer,0)
 
+    #Get the service basic path from the schema based on the current path and convert it to an ordered list. This is a helper fxn
+    #for orderedListToOrderedPaths
+    #returns a list of lists as a tree
     def getServiceDataToOrderedList(this):
         pointer = this.getServiceData()
         return this.dictionaryListToOrderedList(pointer)
     
+    #Converts a list of dictionaries to a string that displays nicley
+    #helper fxn for getServiceDataToText
     def dictionaryListToText(this, dictionaryList, tabs):
         text =  "\n" + tabs*"    "
         tabs+=1
@@ -64,6 +73,9 @@ class Text:
             return dictionaryList + " "
         return text
     
+    #Converts a list of dictionaries to an ordered list
+    #helper fxn for getServiceDataToOrderedList
+    #returns a list of lists as a tree
     def dictionaryListToOrderedList(this, dictionaryList):
         myList =  []
         if isinstance(dictionaryList, list):
@@ -77,6 +89,9 @@ class Text:
             return dictionaryList
         return myList
     
+    #Converts an ordered list to a list of paths
+    #helper for orderedListToOrderedPaths
+    #returns a list of lists (paths)
     def orderedListToOrderedPathsLong(this, orderedList, curPath, paths, leaf=True):
         curPath = curPath.copy()
         for mylist in orderedList:
@@ -94,19 +109,54 @@ class Text:
                         break
                 this.orderedListToOrderedPathsLong(mylist, curPath, paths, leaf)
    
+   #Converts an ordered list to a list of paths
+    #returns a list of lists (paths)
+    
     def orderedListToOrderedPaths(this,orderedList):
         paths = []
         this.orderedListToOrderedPathsLong(orderedList, [], paths, True)
+        for path in paths:
+            path.pop(0)
+        
+        while [] in paths:
+            paths.remove([])
+
         return paths
     
-        
+    #Get the current path content
     def getCurrent(this):
         cur = this.content
         for i in [this.text_root] + this.cur_path:
             cur = cur[i]
         return cur
     
+    def getFullService(this):
+        serviceData = ['TOP']+this.getServiceDataToOrderedList() #Get the service data as an ordered list
+
+        paths = this.orderedListToOrderedPaths(serviceData) #Convert the ordered list to a list of paths
+        
+        for path in paths: #Get the text at each path
+            print(str(path) + "\n\n")
+            text = this.getTextAtPath(this.cur_path  + path)
+            text = " ".join(text)
+            text = text.split(" ")
+
+            
+            
+            for i in range(len(text)):
+                text[i] = text[i][::-1]
+            
+            text = " ".join(text)
+
+            # text = text.split(":")
+            # text = text[::-1]
+            # text = ":".join(text)
+            print(text)
+
+
+
     def getTextAtPath(this, path):
+        print(path)
         cur = this.content
         for i in [this.text_root] + path:
             cur = cur[i]
@@ -122,14 +172,16 @@ class Text:
 
 myText = Text(path_to_text)
 myText.addCurrent('Weekday')
-myText.addCurrent('Minchah')
+myText.addCurrent('Shacharit')
 
+
+myText.getFullService()
 # testData = {"games:" : [{'a':"Test1", 'b':"Test2"}, {'c':"Test3", 'd':"Test4"}], "test":"test","cars:": [{'e':"Test5", 'f':"Test6"}, {'g':"Test7", 'h':"Test8"}]}
 # print(myText.getServiceDataToText())
 # print("\n\n\n")
 # print(myText.getServiceDataToOrderedList())
-paths = []
-mylist = ['TOP'] + myText.getServiceDataToOrderedList()
-paths = myText.orderedListToOrderedPaths(mylist)
+# paths = []
+# mylist = ['TOP'] + myText.getServiceDataToOrderedList()
+# paths = myText.orderedListToOrderedPaths(mylist)
 
-print("PATHS: " + str(paths))
+# print("PATHS: " + str(paths))
