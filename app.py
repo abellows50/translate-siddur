@@ -1,3 +1,4 @@
+
 from Text import Text
 from GUI import GUI
 from SefariaApi import SefariaApi
@@ -17,7 +18,7 @@ path_to_text = 'metsudah_siddur.json'
 myText = Text(path_to_text)
 myText.addCurrent('Weekday')
 myText.addCurrent('Minchah')
-myText.addCurrent('Amidah')
+myText.addCurrent('Amida')
 
 
 

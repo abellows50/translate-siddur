@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkhtmlview import HTMLLabel
+from tkhtmlview import HTMLText
 class GUI:
     def __init__(self):
         self.window = tk.Tk()
@@ -37,7 +37,7 @@ class GUI:
         
     
     def addHtml(self, html):
-        myhtml = HTMLLabel(self.window, html=html)
+        myhtml = HTMLText(self.window, html=html)
         myhtml.pack(padx=20, pady=20)
 
 
