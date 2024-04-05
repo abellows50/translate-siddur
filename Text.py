@@ -187,9 +187,10 @@ def add_bidi_controls(text):
     return u'\u202B' + text + u'\u202C'
 
 full_service = myText.getFullService()
-full_service = add_bidi_controls(full_service)
+#full_service = add_bidi_controls(full_service)
 
-text = get_display(full_service)
+#text = get_display(full_service)
+text=full_service
 with open('output.txt', 'w', encoding='utf-8') as file:
 
     file.write(text)
