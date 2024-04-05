@@ -136,6 +136,7 @@ class Text:
 
         paths = this.orderedListToOrderedPaths(serviceData) #Convert the ordered list to a list of paths
         # print(paths)
+        fullText = ""
         for path in paths: #Get the text at each path
             print(str(path) + "\n\n")
             text = this.getTextAtPath(this.cur_path  + path)
@@ -146,19 +147,19 @@ class Text:
             
             for i in range(len(text)):
                 text[i] = text[i].split(" ")
-                for q in range(len(text[i])):
+                # for q in range(len(text[i])):
                     
-                    text[i][q] = text[i][q][::-1]
+                    # text[i][q] = text[i][q][::-1]
                     
                     # text[i][q] = u'\u202B' + text[i][q] + u'\u202C'
                     #print(text[i][q])
                 text[i] = " ".join(text[i])
             
-
+            fullText+="\n".join(text)
             # text = text.split(":")
             # text = text[::-1]
             # text = ":".join(text)
-        return "\n".join(text)
+        return fullText
             
 
 
@@ -182,9 +183,15 @@ myText = Text(path_to_text)
 myText.addCurrent('Weekday')
 myText.addCurrent('Minchah')
 
+def add_bidi_controls(text):
+    return u'\u202B' + text + u'\u202C'
+
+full_service = myText.getFullService()
+full_service = add_bidi_controls(full_service)
+
 with open('output.txt', 'w', encoding='utf-8') as file:
-    file.write(myText.getFullService())
-print(get_display(myText.getFullService()))
+    file.write(get_display(full_service))
+print(get_display(full_service))
 # testData = {"games:" : [{'a':"Test1", 'b':"Test2"}, {'c':"Test3", 'd':"Test4"}], "test":"test","cars:": [{'e':"Test5", 'f':"Test6"}, {'g':"Test7", 'h':"Test8"}]}
 # print(myText.getServiceDataToText())
 # print("\n\n\n")
