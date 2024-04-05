@@ -130,7 +130,12 @@ class Text:
         return cur
     
     def getFullService(this):
-        serviceData = ['TOP']+this.getServiceDataToOrderedList() #Get the service data as an ordered list
+        serviceData = this.getServiceDataToOrderedList() #Get the service data as an ordered list
+        if isinstance(serviceData, str):
+            return serviceData
+        else:
+            serviceData = ['TOP']+serviceData
+        # serviceData = ['TOP']+this.getServiceDataToOrderedList() #Get the service data as an ordered list
 
         paths = this.orderedListToOrderedPaths(serviceData) #Convert the ordered list to a list of paths
         fullText = ""
