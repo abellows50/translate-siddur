@@ -18,6 +18,12 @@ class SefariaApi:
         url = this.WORD_COMPLETION + word
         return this.request(url)
 
+    def pipe_to_siddur(this, text):
+        return requests.post('https://siddur.pythonanywhere.com/change', data = {'text': text}).text
+    
+    def grab_siddur(this):
+        return requests.get('https://siddur.pythonanywhere.com/').text
+    
     def formatAsHtml(this, json):
         string = ""
         if isinstance(json, list):

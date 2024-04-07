@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkhtmlview import HTMLText, HTMLLabel
+import bidi.algorithm 
 class GUI:
     def __init__(self):
         self.window = tk.Tk()
@@ -37,8 +38,10 @@ class GUI:
         
     
     def addHtml(self, html):
+        # html = bidi.algorithm.get_display(html)
         myhtml = HTMLText(self.window, html=html)
         myhtml.pack(padx=20, pady=20)
+        myhtml.configure(state="disabled")
 
 
     def display(self):
