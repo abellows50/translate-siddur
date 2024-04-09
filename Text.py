@@ -129,7 +129,7 @@ class Text:
             cur = cur[i]
         return cur
     
-    def getFullService(this):
+    def getPaths(this):
         serviceData = this.getServiceDataToOrderedList() #Get the service data as an ordered list
         if isinstance(serviceData, str):
             return serviceData
@@ -138,12 +138,23 @@ class Text:
         # serviceData = ['TOP']+this.getServiceDataToOrderedList() #Get the service data as an ordered list
 
         paths = this.orderedListToOrderedPaths(serviceData) #Convert the ordered list to a list of paths
+        return paths
+    def getFullService(this):
+        paths = this.getPaths() #Get the paths
         fullText = ""
         for path in paths: #Get the text at each path
             text = this.getTextAtPath(this.cur_path  + path)
             fullText+="</br></br>"+":".join(path)+"<br/>"+" ".join(text)
         return fullText
             
+    def getFullServiceAsList(this):
+        paths = this.getPaths() #Get the paths
+        fullText = []
+        for path in paths: #Get the text at each path
+            text = this.getTextAtPath(this.cur_path  + path)
+            fullText.append(text)
+        return fullText
+    
 
 
 
