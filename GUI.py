@@ -2,9 +2,9 @@ import tkinter as tk
 from tkhtmlview import HTMLText, HTMLLabel
 import bidi.algorithm 
 class GUI:
-    def __init__(self):
+    def __init__(self,text):
         self.window = tk.Tk()
-        self.window.title("My GUI")
+        self.window.title(text)
         # self.window.geometry("300x300")
         self.clickFxn = lambda x: x
         self.label = tk.Label(self.window, text="Search")
@@ -38,11 +38,14 @@ class GUI:
         
     
     def addHtml(self, html):
-        # html = bidi.algorithm.get_display(html)
+#         html = bidi.algorithm.get_display(html)
         myhtml = HTMLText(self.window, html=html)
         myhtml.pack(padx=20, pady=20)
-        myhtml.configure(state="disabled")
-
+#         myhtml.configure(state="disabled")
+    
+    def addLabel(self,text):
+        mytext = tk.Label(self.window, text=text)
+        mytext.pack()
 
     def display(self):
         self.window.mainloop()
